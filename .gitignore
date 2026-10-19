@@ -1,0 +1,10 @@
+.venv/
+instance/*
+!instance/assets/
+!instance/originals/
+!instance/hotspots.json
+!instance/asset-report.json
+__pycache__/
+.pytest_cache/
+test-results/
+*.pyc

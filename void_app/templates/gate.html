@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body_class %}gate-page homepage-background{% endblock %}
+{% block content %}
+<main class="entry-shell gate-panel">
+  <p class="eyebrow">Through the Void</p>
+  {% if error %}<h1 class="error-message" role="alert">ERROR 404: Wrong input provided.</h1>
+  {% elif limited %}<h1>Pause the transmission</h1><p>Please retry in one minute.</p>
+  {% else %}<h1>Transmission locked</h1>{% endif %}
+  <form method="post" class="stack">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>Username<input name="username" autocomplete="off" required autofocus></label>
+    <label>Password<input name="password" type="password" autocomplete="off" required></label>
+    <button class="primary">{% if error or limited %}Retry{% else %}Unlock{% endif %}<span aria-hidden="true">↗</span></button>
+  </form>
+  <a class="return-link" href="{{ current }}">Return to current level</a>
+</main>
+{% endblock %}

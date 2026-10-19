@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body_class %}entry-page{% endblock %}
+{% block content %}
+<main class="entry-shell">
+  <div class="orbit-mark" aria-hidden="true"><span></span></div>
+  <p class="eyebrow">Through the Void</p>
+  <h1>{{ title }}</h1>
+  <p class="subtle">{% if admin %}The observatory is in your hands.{% else %}A signal waits on the other side.{% endif %}</p>
+  {% if error %}<p class="notice" role="alert">{{ error }}</p>{% endif %}
+  <form method="post" class="stack">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>{% if admin %}Organizer username{% else %}Participant ID{% endif %}<input name="identity" required maxlength="80" autocomplete="username" autofocus></label>
+    <label>{% if admin %}Password{% else %}Access code{% endif %}<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="primary" type="submit">{% if admin %}Open event control{% else %}Enter{% endif %}<span aria-hidden="true">↗</span></button>
+  </form>
+</main>
+{% endblock %}

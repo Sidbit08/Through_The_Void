@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+/*
+{{ hint | safe }}
+*/
+.art-frame { --art-ratio: {{ image_ratio }}; }
+{% if stage in [0, 1] %}
+.hotspot { left: {{ box[0] }}%; top: {{ box[1] }}%; width: {{ box[2] }}%; height: {{ box[3] }}%; }
+{% endif %}
+{% if stage == 1 %}
+.white-spot:hover::after, .white-spot:focus-visible::after { content: "Username- TheLesser"; }
+{% endif %}
+</style>
+{% endblock %}
+{% block body_class %}puzzle stage-{{ stage }}{% endblock %}
+{% block content %}
+<header class="puzzle-heading"><h1>{{ title }}</h1>
+{% if stage == 1 %}<p>Go to the source of the problem</p>{% endif %}
+{% if stage == 8 %}<p>Congratulations, You have Mapped the Winter Night Sky.</p>{% endif %}
+</header>
+{% if bits %}
+<div class="binary-pattern">{% for byte in bits %}<div class="byte">{% for bit in byte %}<span class="bit b{{ bit }}"></span>{% endfor %}</div>{% endfor %}</div>
+{% endif %}
+<main class="art-stage">
+  <div class="art-frame">
+    <img class="puzzle-image" src="/{{ image }}" alt="" draggable="true">
+    {% if stage == 0 %}
+    <form action="/enter-void" method="post" class="door-form">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <button class="hotspot door" aria-label="Enter the void" type="submit"></button>
+    </form>
+    {% elif stage == 1 %}
+    <span class="hotspot white-spot" tabindex="0"></span>
+    {% endif %}
+  </div>
+</main>
+{% if stage == 2 %}<p class="buried-text">TheBrightest.htm</p>{% endif %}
+{% if stage == 7 %}<p class="camouflaged">Look at the b(right) side</p>{% endif %}
+<footer class="quiet-controls">
+  <form action="/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Sign out</button></form>
+</footer>
+{% endblock %}

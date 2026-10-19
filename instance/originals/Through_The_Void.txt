@@ -1,0 +1,86 @@
+Through The Void:
+
+Instructions: All the webpages must have an image centered which will be used to solve the stage along with a static audio in the background which in itself serves no purpose until the later stage. Every webpage will have a different background according to the instructions provided in the webpage. While entering from one website to another, the website will require a username and password without which the user wont be able to proceed forward. If the user inputs the wrong credentials, he will be redirected to another website where it will show the Message of ERROR 404: Wrong input provided. This webpage will have the same background as that of the homepage. Make sure that the user cannot access the answers in any other way by separating the answers in backend. All these webpages are to be hosted locally. All the hints will be provided in the source code i.e. the css part of the site that will be accessed by the user, the user shouldn't have any other access. In the backend also make sure that in someway if the user uses A.I. directly to solve the puzzle as a plugin, he shouldn't be able to by showing "ERROR: A.I. will cook your Brain. Don't try this." with the same background of the HomePage. All the source code hint mentioned will only be present i the CSS and nowhere else. The URL name will have .htm at the end and will have a name relevant name to the existing level add accordingly. I will add the images later just add a image for now centred and the site shouldn't have a scroll bar unless mentioned in the level. The Username and Password written in each level are to be entered somewhere else to access the next stage. Also whenever the user enters a wrong input, he should still remain on the same page rather than going back at the beginning. Everything written here is only for your understanding, do not keep anything on the webpage unless mentioned.
+
+Home Page: 
+ 
+         Title: Through the void
+         Insert the image named ThroughTheVoid.png here. When the user clicks on the door in the Image, He starts the first level.    
+         Source code hint: <Ahh!! So you want answers!! Try the image>
+
+1) Easy: When you hover over the Image at a specific white spot, it will show the words: "Username- TheLesser". The URL will be /level1.htm. When the user changes it to level2.htm, he can enter the username and password to access the next level. Insert image Level1.png here. Add link for elodie_clue_4x.mp3 in the source code.
+         Title: Linking problem!!
+         Text on the page: "Go to the source of the problem"
+         Hint in Source Code: <Perhaps the URL isn't how it's supposed to be??>, <Password is something before the Hound in the Night Sky>
+         This link sends the user to another page ending with where:
+         Username: TheLesser
+         Password: Procyon
+
+
+2) Easy: This level will have the URL as Level2.htm. Concealed  In the black website background, "TheBrightest.htm". Only this site will have a scroll option, the words wont be visible to user unless he tries to select the entire screen. Insert image Level2.png here. Add link for elodie_line2_4x.mp3 in the source code.
+
+        Title: Shrouded in Dark
+        Hint in Source Code: <Password is the Brightest Star in the Night Sky>
+        Username: TheBrightest
+        Password: Sirius
+        
+
+3) Moderate: This level will have Brightest.htm as the URL. Open the Image in a new tab and change it's URL to access the next page. Invert the image colours to find the password for next stage. Insert image Level3.png here. Add link for elodie_line3_3x.mp3 in the source code.
+
+         Title: Light it up
+Source Code Hint:<The next answer is in the image!!>,
+        username: - Orion , 
+        <Password Hint in image: The Hunter's Blue foot in the Sky>
+         Password: Rigel
+
+4) Moderate: This level will have /Orion.htm as the URL. Convert the website background into Binary pattern for {1= Black, 0= White} as per this Binary code for ( The Hunter's Red Shoulder). Arrange it in such a way that it does not conflict with the image present.
+The user will then convert it to binary by guessing,  Then convert it into words using ASCII. Add the link for next level in the source code but it will require the below username and password for accessing it. Insert image Level4.png here. Add link for elodie_line4_3x.mp3 in the source code.
+
+         Title: The Light Falls, the Dark illuminates
+         Hint1 in source code: <Eight steps make a letter....>
+         Hint2 in source code: <"As the stars emerge,
+                                 Sun dims down
+                                 Compared to the vastness,
+                                 Incomprehensible lengths
+                                 It falters greatly">
+         Hint3 in source code: <"Username is the same as last">       
+         (Binary Answer: The Hunter's Red Shoulder) - 
+          Username: Orion
+          Password: Betelgeuse
+
+5) Hard: URL will be /Hunted.htm. Analyze the image first. When you open the image in a different tab and change the .png to .gif, a link ./music1.mp3 appears, from that link you get the morse code audio. Have both these files present separately. Insert image Level5.png here. Have level5.gif present in the database that can be accessed by user. Add /vivid.htm link in the source code. Have ./music1.mp3 file present separately. 
+
+        Title: A Silent Voice
+        Source Code Hint: <.gif me here> in the same line as the .png file.
+        Source code hint2: <“Seek the name where the void began.”>
+        Morse code answer: The Eye of the Bull in the sky.
+        Username: Taurus
+        Password: Aldebaran
+The hint will be present in the of the poster on the home page.
+
+
+
+6) Hard: URL will be /vivid.htm . Insert image level6.png here. Insert link for brightside.htm in source code. Add the link for hint.mp3 in source code.
+         Title: Echoes of the Unknown
+         Hint from the audio files: The Bull's bright eye is not alone,  
+                                    His face is traced by stars unknown.  
+                                    A V-shaped cluster marks his brow,  
+                                    Seek the stellar herd that gathers now.
+         Hint in audio: <You always had the audio>
+         Username: Taurus
+         Password: Hyades
+
+
+7) Hard: URL will be brightside.htm. Insert image scrambled.png here. After using the image name as the URL, a new webpage named /scrambled.htm will open having the below binary code  <Binary(01110010 01100111 01110111 00100000 01100001 01110111 01100011 01110111 01100010 00100000 01110110 01110111 01110100 01101001 01100010 01110011 00100000 01110010 01100111 01110111 00100000 01110110 01111001 01101011 01101011 01100001 00100000 01110111 01110100 01110111 )> written. Add URL named /thevoid.htm in the source code.
+        Title: Seven In The Void  
+        Hint1 in source code: <"The image name and link seems to be connected!?">
+        Hint in site camouflaged in the background: "Look at the b(right) side"
+        Hint2 in source code: <j->k, q->w>
+        Username: Taurus
+        Password: Pleiades
+-
+Final Page: URL will be thevoid.htm. Insert the image TheWinterSky.png here.
+        Title: The Winter Sky
+        Message: Congratulations, You have Mapped the Winter Night Sky.
+        
+        

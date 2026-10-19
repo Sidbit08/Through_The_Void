@@ -1,0 +1,96 @@
+{
+  "elodie_clue_4x.mp3": {
+    "sha256": "225c163da22e893caf82f536666d2308214102a5e076e6d831c20ce0819c8e25",
+    "bytes": 14757
+  },
+  "elodie_line2_4x.mp3": {
+    "sha256": "ae810b02d62b6497b785a7fc9f18f45dd0afab73c3afd23cfc0fdcebac3269c8",
+    "bytes": 15189
+  },
+  "elodie_line3_3x.mp3": {
+    "sha256": "d14d0a64a5e1dcea8a0f698fd73918fec7b30e38d5cff29b1cb195a284a2bf3e",
+    "bytes": 16317
+  },
+  "elodie_line4_3x.mp3": {
+    "sha256": "6dae2df8d41aef4a88507850973e5ad6ef22862eaebf73d9be897180c2a634e3",
+    "bytes": 17205
+  },
+  "hint.mp3": {
+    "sha256": "00d02c8bb4c1225c4e54165cf37180328362f9b0cf111d0cfaedee5856a9fa37",
+    "bytes": 40677
+  },
+  "Level1.jpeg": {
+    "sha256": "da4039ec40c4a9cfbac43496526c56d92d008746583e6e62e720538e23589a72",
+    "bytes": 521197,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "Level2.png": {
+    "sha256": "3b4a8562eab1abe2dd076abc56fde3ad7e60b0e9c716f3fea21170e268d88bcb",
+    "bytes": 1232240,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "Level3.png": {
+    "sha256": "0b9f294515bd7f7e03b5ddb17d3b4e19d2a04fe85ad12ed32265e3f2858c2d7e",
+    "bytes": 1625944,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "Level4.png": {
+    "sha256": "e6b3d276b3fdfe56e2f3b523cbf0613247d0e01f657267592c8b8a816c557d16",
+    "bytes": 1923469,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "Level5.gif": {
+    "sha256": "32c63d6384123bb4a8b7fef8e425fee926036934b5f2e79058c5368ed578da46",
+    "bytes": 65382,
+    "width": 960,
+    "height": 540,
+    "frames": 16
+  },
+  "Level5.png": {
+    "sha256": "f0862db0b6fe2f4e31fa6197eb5d718ac07e17b5b86273e09b65399d48220950",
+    "bytes": 2189227,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "Level6.png": {
+    "sha256": "ec9edf832d49ea5bfbb00b532eec6d997eebeb6585456576184e97d879fef4a4",
+    "bytes": 2166809,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "music1.mp3": {
+    "sha256": "3f98ec4631f0f629f6d8291ad734ead1fd53d499c3a2859ca17a9994cba1c511",
+    "bytes": 195812
+  },
+  "scrambled.png": {
+    "sha256": "80eddaa573e6db54d4ae3e107c4535d58f2c36470bb7639917261fb5f5cde30e",
+    "bytes": 2859142,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "TheWinterSky.png": {
+    "sha256": "872cbd866d14f9902ee6c42bdf3fd74984e3320f5bf975f36f123f5e5574e249",
+    "bytes": 2307314,
+    "width": 1536,
+    "height": 1024,
+    "frames": 1
+  },
+  "ThroughTheVoid.png": {
+    "sha256": "1bdce24041d821a65a89f94166786e0bd3c732f7535fa26097656881dcb4aaf4",
+    "bytes": 1751918,
+    "width": 1122,
+    "height": 1402,
+    "frames": 1
+  }
+}

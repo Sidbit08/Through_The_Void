@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} · Through the Void</title>
+  <link rel="stylesheet" href="/static/site.css">
+  {% block style %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  {% block content %}{% endblock %}
+  {% if not admin %}
+  <div class="sound-toggle"><button type="button" id="sound-control" aria-pressed="false">Enable sound</button></div>
+  <script src="/static/sound.js" defer></script>
+  {% endif %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>

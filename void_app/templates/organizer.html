@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body_class %}organizer-page{% endblock %}
+{% block content %}
+<main class="dashboard">
+  <header class="dashboard-head"><div><p class="eyebrow">Through the Void / Organizer</p><h1>Event control</h1></div>
+    <form action="/organizer/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Sign out</button></form>
+  </header>
+  {% if message %}<p class="notice" role="status">{{ message }}</p>{% endif %}
+  {% if code %}<div class="issued-code"><p>Participant <strong>{{ identity }}</strong> · Access code</p><code>{{ code }}</code><p>Copy now. This code cannot be retrieved later.</p></div>{% endif %}
+  <section class="control-grid">
+    <div class="control-card"><p class="eyebrow">Six-hour window</p>
+    {% if event.start is none %}<h2>Awaiting launch</h2><p>The clock starts only when you start the event.</p>
+      <form method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="action" value="start"><button class="primary" {% if problems %}disabled{% endif %}>Start six-hour event</button></form>
+    {% else %}<h2>{% if clock < event.deadline %}Event in progress{% else %}Event ended{% endif %}</h2><p>Start: {{ event.start | utc }}</p><p>Deadline: {{ event.deadline | utc }}</p>{% endif %}
+    <p class="subtle">Server time: {{ clock | utc }}</p></div>
+    <div class="control-card"><p class="eyebrow">Participant access</p><h2>Create a participant</h2>
+      <form method="post" class="stack"><input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="action" value="create"><label>Participant ID<input name="participant" pattern="[A-Za-z0-9_-]{1,40}" maxlength="40" required></label><button>Create &amp; issue code</button></form>
+    </div>
+  </section>
+  {% if problems %}<section class="control-card"><h2>Preflight needs attention</h2><ul>{% for problem in problems %}<li>{{ problem }}</li>{% endfor %}</ul></section>{% endif %}
+  <section class="control-card"><div class="section-head"><h2>Participants</h2><a href="/organizer/results.csv">Export results CSV ↓</a></div>
+    <div class="table-scroll"><table><thead><tr><th>ID</th><th>Unlocked stage</th><th>AI prompts</th><th>Completion (UTC)</th><th>Elapsed seconds</th><th>Policy</th></tr></thead><tbody>
+    {% for p in participants %}<tr><td>{{ p.id }}</td><td>{{ p.progress }}</td><td>{{ p.ai_used }} / 3</td><td>{{ p.completed | utc }}</td><td>{{ '%.1f'|format(p.elapsed) if p.elapsed is not none else '—' }}</td><td>{{ 'Blocked' if p.blocked else 'Allowed' }}</td></tr>{% else %}<tr><td colspan="6">No participants yet.</td></tr>{% endfor %}
+    </tbody></table></div>
+    <form method="post" class="action-form"><input type="hidden" name="csrf" value="{{ csrf }}">
+      <label>Participant<select name="participant" required>{% for p in participants %}<option>{{ p.id }}</option>{% endfor %}</select></label>
+      <label>Action<select name="action"><option value="use-ai">Record supervised AI prompt (+1)</option><option value="correct-ai">Correct mistaken prompt record (−1)</option><option value="recover">Replace access code &amp; revoke sessions</option><option value="block">Block participant under AI policy</option><option value="unblock">Remove policy block</option></select></label>
+      <label>Audit reason (required except prompt use)<input name="reason" maxlength="500"></label><button>Record action</button>
+    </form>
+    <p class="subtle">This ledger records supervised use. It does not control third-party AI websites.</p>
+  </section>
+  <section class="control-card"><h2>Successful unlocks</h2><div class="table-scroll"><table><thead><tr><th>Participant</th><th>Stage</th><th>Server timestamp (UTC)</th></tr></thead><tbody>{% for u in unlocks %}<tr><td>{{ u.participant }}</td><td>{{ u.stage }}</td><td>{{ u.timestamp | utc }}</td></tr>{% else %}<tr><td colspan="3">No unlocks yet.</td></tr>{% endfor %}</tbody></table></div></section>
+  <section class="control-card"><div class="section-head"><h2>Audit ledger</h2><a href="/organizer/audit.csv">Export full audit CSV ↓</a></div><p class="subtle">Most recent 200 actions. The complete ledger remains in the database and export.</p><div class="table-scroll"><table><thead><tr><th>Participant</th><th>Organizer</th><th>UTC</th><th>Action</th><th>Reason</th><th>Delta</th></tr></thead><tbody>{% for log in logs %}<tr><td>{{ log.participant or '—' }}</td><td>{{ log.organizer }}</td><td>{{ log.timestamp | utc }}</td><td>{{ log.action }}</td><td>{{ log.detail }}</td><td>{{ log.delta }}</td></tr>{% endfor %}</tbody></table></div></section>
+</main>
+{% endblock %}

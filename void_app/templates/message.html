@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body_class %}entry-page{% if backdrop %} homepage-background{% endif %}{% endblock %}
+{% block content %}
+<main class="entry-shell gate-panel"><p class="eyebrow">Through the Void</p><h1>{{ title }}</h1><p>{{ message }}</p>
+{% if g.player %}<form action="/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Sign out</button></form>{% endif %}
+</main>
+{% endblock %}
