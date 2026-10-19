@@ -4,6 +4,22 @@ A local astronomy puzzle hunt: one entrance, seven levels, a level 7 helper, and
 
 Requires Python **3.11 or newer** (validated on Python 3.12, Linux). Keep the entire repository on the organizer's laptop; never distribute it to participants. The source, assets and organizer documents contain solutions.
 
+## Screenshots
+
+These are actual screenshots from the Chromium browser walkthrough. Keep the repository private during the event because its source and assets contain the complete puzzle solutions.
+
+Participant entry:
+
+![Participant entry screen](docs/screenshots/entry.png)
+
+Homepage:
+
+![Through the Void homepage](docs/screenshots/home.png)
+
+Example puzzle page:
+
+![Echoes of the Unknown puzzle page](docs/screenshots/puzzle.png)
+
 ## Linux setup
 
 Run from this directory:

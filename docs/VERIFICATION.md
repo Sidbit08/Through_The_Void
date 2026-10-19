@@ -49,4 +49,4 @@ The four accelerated voice clips and the spoken hint were **not independently tr
 - A rehearsal under expected participant load, laptop power/sleep behavior, backup/restore practice and operational supervision. The concurrent ledger test is not a server capacity benchmark.
 - HTTPS reverse-proxy deployment and fresh-task/cloud snapshot restoration. Saving environment instructions is separate from publishing or restoring the environment.
 
-No repository commit was pushed, no event was started in the real instance, no production participant/organizer credentials were invented, and no host firewall settings were changed.
+No event was started in the real instance, no production participant/organizer credentials were invented, and no host firewall settings were changed. The source and original assets are now available in the Through_The_Void GitHub repository. Keep that repository private during the event because it includes all puzzle solutions.
