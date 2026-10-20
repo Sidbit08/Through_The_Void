@@ -39,7 +39,7 @@ def test_complete_canonical_progression_and_once_only_completion(app, player):
         assert STAGES[stage][1] in client.get(path).text
     finished = progress(app)
     app.clock[0] += 10
-    client.post("/thevoid.htm", data={"csrf": token, "username": "taurus", "password": "pleiades"})
+    client.post("/thevoid.htm", data={"csrf": token, "username": "taurus", "password": "pleiades-crypt"})
     assert progress(app)["completed"] == finished["completed"]
     assert finished["elapsed"] == 100
     assert client.get("/TheWinterSky.png").status_code == 200
@@ -128,7 +128,7 @@ def test_binary_pattern_and_no_plaintext_in_response(app, player):
     page = client.get("/Orion.htm").text
     bits = "".join(re.findall(r'class="bit b([01])"', page))
     assert len(bits) == len(BINARY_PHRASE) * 8
-    assert "".join(chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)) == "The Hunter's Red Shoulder"
+    assert "".join(chr(int(bits[i:i+8], 2)) for i in range(0, len(bits), 8)) == "The Hunter's Red Shoulder - seal 5831"
     assert BINARY_PHRASE not in page
     assert "Betelgeuse" not in page
     assert "As the stars emerge,\nSun dims down\nCompared to the vastness,\nIncomprehensible lengths\nIt falters greatly" in page
@@ -136,10 +136,10 @@ def test_binary_pattern_and_no_plaintext_in_response(app, player):
 
 def test_helper_cipher_exact_and_decodes_as_specified(app, player):
     decoded = "".join(chr(int(byte, 2)) for byte in HELPER_BITS.split())
-    assert decoded == "rgw awcwb vwtibs rgw vykka wtw"
+    assert decoded == "rgw awcwb vwtibs rgw vykka wtw - jwt xetor"
     rows = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
     mapping = {a: b for row in rows for a, b in zip(row, row[1:])}
-    assert "".join(mapping.get(c, c) for c in decoded) == "the seven beyond the bulls eye"
+    assert "".join(mapping.get(c, c) for c in decoded) == "the seven beyond the bulls eye - key crypt"
     client, _ = player
     set_progress(app, 7)
     page = client.get("/scrambled.htm").text
@@ -180,7 +180,7 @@ def test_event_start_and_deadline_authoritative(app, player):
         db.execute("UPDATE event SET start=?,deadline=?", (app.clock[0]-21600, app.clock[0]))
     set_progress(app, 7)
     assert client.get("/brightside.htm").status_code == 200
-    result = client.post("/thevoid.htm", data={"csrf": token, "username": "Taurus", "password": "Pleiades", "browser_time": "0"})
+    result = client.post("/thevoid.htm", data={"csrf": token, "username": "Taurus", "password": "Pleiades-crypt", "browser_time": "0"})
     assert result.status_code == 403
     assert progress(app)["completed"] is None
     assert client.get("/TheWinterSky.png").status_code == 404
@@ -287,7 +287,7 @@ def test_no_arbitrary_files_or_directory_listing(app, path):
 def test_rate_limit_and_security_headers(app, player):
     client, token = player
     client.post("/enter-void", data={"csrf": token})
-    for _ in range(15):
+    for _ in range(5):
         assert client.post("/level2.htm", data={"csrf": token, "username": "a", "password": "b"}).status_code == 401
     response = client.post("/level2.htm", data={"csrf": token, "username": "TheLesser", "password": "Procyon"})
     assert response.status_code == 429
@@ -340,7 +340,7 @@ def test_concurrent_completion_recorded_once(app, player):
     def finish(_):
         other = app.test_client()
         other.set_cookie("void_player", cookie)
-        return other.post("/thevoid.htm", data={"csrf": token, "username": "Taurus", "password": "Pleiades"}).status_code
+        return other.post("/thevoid.htm", data={"csrf": token, "username": "Taurus", "password": "Pleiades-crypt"}).status_code
     with ThreadPoolExecutor(max_workers=4) as pool:
         results = list(pool.map(finish, range(8)))
     assert all(status in (200, 302) for status in results)

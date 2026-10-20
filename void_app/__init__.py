@@ -15,6 +15,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from .assets import read_hotspots, readiness
 from .db import connect, initialize, transaction
+from . import gates
 from .puzzles import ANSWERS, ASSETS, BINARY_PHRASE, HELPER_BITS, HINTS, STAGES
 
 
@@ -71,7 +72,7 @@ def create_app(config=None):
             "Cache-Control": "no-store, private, max-age=0",
             "Pragma": "no-cache", "X-Content-Type-Options": "nosniff",
             "Referrer-Policy": "no-referrer", "X-Frame-Options": "DENY",
-            "Content-Security-Policy": "default-src 'none'; img-src 'self'; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; font-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+            "Content-Security-Policy": "default-src 'none'; img-src 'self'; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
         })
         if getattr(g, "new_token", None):
             response.set_cookie(g.cookie_name, g.new_token, httponly=True,
@@ -178,7 +179,7 @@ def create_app(config=None):
 
     @app.get("/static/<name>")
     def static_file(name):
-        if name not in ("site.css", "sound.js"):
+        if name not in ("site.css", "sound.js", "fragment.js"):
             abort(404)
         return send_file(public / name)
 
@@ -218,34 +219,40 @@ def create_app(config=None):
         if stage == 1 and progress == 0:
             return redirect("/index.htm")
         if stage > progress:
-            error = False
             if not active(event()):
                 return render_template("message.html", title="Event closed", message="The event has ended."), 403
-            if request.method == "POST":
-                if throttle("gate:" + g.player["id"], 15):
-                    response = render_template("gate.html", title="Transmission locked", limited=True,
-                                               current=STAGES[progress][0])
-                    return response, 429, {"Retry-After": "60"}
-                expected = ANSWERS[stage]
-                supplied = (request.form.get("username", "").strip().casefold(), request.form.get("password", "").strip().casefold())
-                correct = hmac.compare_digest(supplied[0].encode(), expected[0].encode()) & hmac.compare_digest(supplied[1].encode(), expected[1].encode())
-                if correct:
-                    with transaction(g.db):
-                        # Re-read under the write lock: races cannot skip a stage,
-                        # submit after expiry, or overwrite a completion time.
-                        fresh = g.db.execute("SELECT * FROM participants WHERE id=?", (g.player["id"],)).fetchone()
-                        stamp = now()
-                        record = event()
-                        if not active(record) or fresh["blocked"]:
-                            abort(403)
-                        if fresh["progress"] == stage - 1:
-                            g.db.execute("UPDATE participants SET progress=? WHERE id=?", (stage, fresh["id"]))
-                            g.db.execute("INSERT OR IGNORE INTO unlocks VALUES(?,?,?)", (fresh["id"], stage, stamp))
-                            if stage == 8:
-                                g.db.execute("UPDATE participants SET completed=?,elapsed=? WHERE id=? AND completed IS NULL", (stamp, stamp - record["start"], fresh["id"]))
+            with transaction(g.db):
+                # Identity, cooldown, validation and unlock share one write lock.
+                fresh = g.db.execute("SELECT * FROM participants WHERE id=?", (g.player["id"],)).fetchone()
+                stamp = now()
+                record = event()
+                if fresh["blocked"]:
+                    abort(403)
+                if fresh["progress"] >= stage:
                     return redirect(STAGES[stage][0])
-                error = True
-            return render_template("gate.html", title="Transmission locked", error=error, current=STAGES[progress][0]), 401 if error else 200
+                if not active(record):
+                    return render_template("message.html", title="Event closed", message="The event has ended."), 403
+                current = gates.state(g.db, fresh["id"], stage, stamp)
+                seconds = gates.remaining(current, stamp)
+                error = False
+                status = 429 if seconds else 200
+                if request.method == "POST" and not seconds:
+                    expected = ANSWERS[stage]
+                    supplied = (request.form.get("username", "").strip().casefold(), request.form.get("password", "").strip().casefold())
+                    correct = hmac.compare_digest(supplied[0].encode(), expected[0].encode()) & hmac.compare_digest(supplied[1].encode(), expected[1].encode())
+                    if correct:
+                        g.db.execute("UPDATE participants SET progress=? WHERE id=?", (stage, fresh["id"]))
+                        g.db.execute("INSERT OR IGNORE INTO unlocks VALUES(?,?,?)", (fresh["id"], stage, stamp))
+                        gates.clear(g.db, fresh["id"], stage, stamp, "unlock")
+                        if stage == 8:
+                            g.db.execute("UPDATE participants SET completed=?,elapsed=? WHERE id=? AND completed IS NULL", (stamp, stamp - record["start"], fresh["id"]))
+                        return redirect(STAGES[stage][0])
+                    current = gates.fail(g.db, fresh["id"], stage, stamp, current)
+                    seconds = gates.remaining(current, stamp)
+                    error, status = True, 401
+            response = render_template("gate.html", title="Transmission locked", error=error,
+                                       limited=bool(seconds), remaining=seconds, current=STAGES[progress][0])
+            return response, status, {"Retry-After": str(seconds)} if seconds else {}
         path, title, image = STAGES[stage]
         if not (data / "assets" / image).is_file():
             return render_template("message.html", title="Transmission unavailable", message="The artwork is unavailable. Please contact the organizer."), 503
@@ -260,6 +267,15 @@ def create_app(config=None):
 
     for stage, (path, _title, _image) in STAGES.items():
         app.add_url_rule(path, f"stage_{stage}", lambda stage=stage: puzzle(stage), methods=["GET", "POST"])
+
+    @app.get("/fragment")
+    def fragment():
+        denied = player_guard()
+        if denied:
+            return denied
+        if g.player["progress"] < 2:
+            abort(404)
+        return Response("TheBrightest.htm", mimetype="text/plain")
 
     @app.get("/scrambled.htm")
     def helper():
@@ -297,9 +313,12 @@ def create_app(config=None):
         participants = g.db.execute("SELECT * FROM participants ORDER BY id").fetchall()
         unlocks = g.db.execute("SELECT * FROM unlocks ORDER BY timestamp").fetchall()
         logs = g.db.execute("SELECT * FROM audit ORDER BY id DESC LIMIT 200").fetchall()
+        counters = g.db.execute("SELECT * FROM gate_attempts ORDER BY participant,gate").fetchall()
+        gate_logs = g.db.execute("SELECT * FROM gate_events ORDER BY id DESC LIMIT 200").fetchall()
         return render_template("organizer.html", title="Event control", participants=participants,
                                unlocks=unlocks, logs=logs, event=event(), problems=readiness(data),
-                               message=message, code=code, identity=identity, clock=now()), status
+                               message=message, code=code, identity=identity, clock=now(),
+                               counters=counters, gate_logs=gate_logs, destinations={n: s[0] for n, s in STAGES.items() if n in ANSWERS}), status
 
     @app.route("/organizer", methods=["GET", "POST"])
     def organizer():
@@ -334,17 +353,29 @@ def create_app(config=None):
                 g.db.execute("INSERT INTO participants(id,code_hash) VALUES(?,?)", (identity, code_hash))
                 audit(identity, "create")
             return dashboard("Access code shown once. Deliver it privately.", code, identity)
-        if action not in ("recover", "use-ai", "correct-ai", "block", "unblock"):
+        if action not in ("recover", "use-ai", "correct-ai", "block", "unblock", "reset-cooldown"):
             abort(400)
-        if action in ("correct-ai", "block", "unblock", "recover") and not reason:
+        if action in ("correct-ai", "block", "unblock", "recover", "reset-cooldown") and not reason:
             return dashboard("An audit reason is required.", status=400)
+        gate = None
+        if action == "reset-cooldown":
+            try:
+                gate = int(request.form.get("gate", ""))
+            except ValueError:
+                abort(400)
+            if gate not in ANSWERS:
+                abort(400)
         code = secrets.token_urlsafe(18) if action == "recover" else None
         code_hash = generate_password_hash(code) if code else None
         with transaction(g.db):
             participant = g.db.execute("SELECT * FROM participants WHERE id=?", (identity,)).fetchone()
             if not participant:
                 abort(404)
-            if action == "use-ai":
+            if action == "reset-cooldown":
+                previous = g.db.execute("SELECT failures,cooldown_until FROM gate_attempts WHERE participant=? AND gate=?", (identity, gate)).fetchone()
+                gates.clear(g.db, identity, gate, now(), "organizer-reset")
+                audit(identity, action, json.dumps({"gate": STAGES[gate][0], "previous": dict(previous) if previous else None, "reason": reason}))
+            elif action == "use-ai":
                 if not active(event()) or participant["blocked"]:
                     return dashboard("Prompt use requires an active event and an unblocked participant.", status=409)
                 result = g.db.execute("UPDATE participants SET ai_used=ai_used+1 WHERE id=? AND ai_used<3", (identity,))

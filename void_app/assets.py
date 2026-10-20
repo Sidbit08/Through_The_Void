@@ -1,14 +1,61 @@
 """Allowlisted, non-destructive ZIP import. Originals remain private."""
 import hashlib
 import json
+import os
 import shutil
 import stat
+import tempfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
 from PIL import Image
 
 from .puzzles import ASSETS
+
+CLUE_AUDIO = ('elodie_clue_4x.mp3', 'elodie_line2_4x.mp3',
+              'elodie_line3_3x.mp3', 'elodie_line4_3x.mp3')
+
+
+def atomic_write(path, payload):
+    with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as temporary:
+        temporary.write(payload)
+        temporary_path = Path(temporary.name)
+    try:
+        os.replace(temporary_path, path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+
+def sync_clue_audio(source_dir, data_dir):
+    """Upgrade only known original clips; preserve all event and custom data."""
+    source, target = Path(source_dir), Path(data_dir)
+    manifest_path = target / 'asset-report.json'
+    manifest = json.loads(manifest_path.read_text())
+    bundled = json.loads((source / 'asset-report.json').read_text())
+    planned = []
+    digest = lambda payload: hashlib.sha256(payload).hexdigest()
+    for name in CLUE_AUDIO:
+        updated = (source / 'assets' / name).read_bytes()
+        original = (source / 'originals/audio-before-seals' / name).read_bytes()
+        if digest(updated) != bundled[name]['sha256']:
+            raise ValueError(f'Bundled checksum mismatch: {name}')
+        current = (target / 'assets' / name).read_bytes()
+        if current not in (original, updated):
+            raise ValueError(f'Refusing to replace an unrecognized recording: {name}')
+        backup = target / 'backups/audio-before-seals' / name
+        if backup.exists() and backup.read_bytes() != original:
+            raise ValueError(f'Refusing to replace a different backup: {name}')
+        planned.append((name, current, updated, original, backup))
+    # Complete preflight before any writes; interrupted runs can safely resume.
+    for name, current, updated, original, backup in planned:
+        backup.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        if not backup.exists():
+            atomic_write(backup, original)
+        if current != updated:
+            atomic_write(target / 'assets' / name, updated)
+        manifest[name] = bundled[name]
+    atomic_write(manifest_path, (json.dumps(manifest, indent=2) + '\n').encode())
+    return list(CLUE_AUDIO)
 
 
 def import_archive(archive, data_dir):
@@ -91,7 +138,7 @@ def readiness(data_dir):
         for name in ASSETS:
             path = data_dir / "assets" / name
             if path.is_file() and (name not in report or hashlib.sha256(path.read_bytes()).hexdigest() != report[name].get("sha256")):
-                problems.append(f"Original asset checksum mismatch: {name}")
+                problems.append(f"Asset checksum mismatch: {name}")
         if report.get("Level5.gif", {}).get("frames", 0) < 2:
             problems.append("Level5.gif must be animated")
     except (OSError, ValueError, TypeError, AttributeError):

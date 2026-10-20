@@ -1,52 +1,61 @@
 # Verification record
 
-The application was implemented and exercised in the actual Linux cloud workspace. These results describe this instance and the disposable test events, not a future laptop, a published cloud snapshot or a physical event LAN.
+The revised application was exercised on Linux/Python 3.12 in the cloud workspace. Each browser run and application test used disposable event data. These results do not establish Windows execution or physical LAN/headphone behavior.
 
-## Automated application checks
+## Application checks
 
-`python -m pytest -q`: **32 tests passed**, with no skipped or expected-failure tests.
+`python -m pytest -q`: **46 passed**, no skipped or expected-failure tests. `pip check`: no broken requirements. `bash scripts/setup-linux.sh` completed again, preserving state; `manage.py check` verified all 16 assets and both hotspot boxes.
 
-Coverage includes:
+Checks include:
 
-- All eight unlock transitions, canonical routes, case-insensitive/trimmed puzzle credentials, compatibility redirects and correct Linux asset capitalization.
-- Wrong inputs keep progress and show the specified message, homepage error background, retry and current-level return.
-- Every asset's authorization at every progress stage; guessed future pages, helper, GIF/audio and final image stay protected. Anonymous media requests, forged cookies and arbitrary paths cannot access protected files.
-- Earlier audio remains available at level 6. The real original GIF bytes, its 16 frames, PNG/GIF substitution, both relative music path spellings, and unchanged original checksums are checked.
-- The level 4 bits decode exactly to the required ASCII phrase. The helper binary is exact and its keyboard shift decodes to the intended phrase. Explicit source hints occur only in that page's CSS; other credentials and speech transcripts are absent from page source.
-- Before-start restrictions, server-authoritative expiry, once-only start and completion, required asset/hotspot preflight, and detection of modified originals.
-- Twelve concurrent AI-use submissions accept exactly three increments; corrections require reasons and retain attributed audit records. Concurrent final submissions produce one unlock/completion record.
-- Independent participants, organizer/player separation, recovery preserving progress while revoking old sessions, explicit block/unblock, CSV exports, CSRF (including forged Unicode tokens), temporary rate limiting, no-store headers and persistent sessions/state across app restarts.
-- Public responses use local resource references. No project-root or directory-listing route exists.
+- Complete canonical progression and route aliases; new credentials accept surrounding whitespace and mixed case, and previous astronomy-only passwords fail. All complete passwords remain backend-only.
+- Exact level 4 ASCII decoding to `The Hunter's Red Shoulder - seal 5831`, preserving the acrostic and CSS hints. The helper decodes through explicit, non-wrapping keyboard rows to `the seven beyond the bulls eye - key crypt`; spaces and hyphen are preserved.
+- Level 2's initial HTML and delivered CSS/JS contain no `TheBrightest.htm` string. The authenticated endpoint returns precisely that text with `no-store`. Anonymous, pre-level-2, blocked, and before-start requests cannot retrieve it. The live DOM and network response remain inspectable by design.
+- Five failed submissions start a persistent 60-second cooldown. Correct submissions during cooldown are rejected without credential comparison or timestamp extension. Expiry and successful unlock reset the counter. Already unlocked pages/assets remain available.
+- Twenty concurrent requests produce exactly **five failures and fifteen cooldown rejections**, with failure counts 1–5 recorded once. Sign-out/sign-in, another session, changed IP, and application restart do not bypass the restriction. Other participants and destination gates have independent counters.
+- Organizer cooldown resets require organizer authentication, CSRF, a valid destination, and an audit reason. Reset affects only the chosen counter and records the operator, destination, previous state and reason, without recording submitted passwords.
+- A populated legacy database migrates twice without changing any rows in its seven existing tables. Event clocks, completion/elapsed times, progress, allowance use, sessions, unlocks and audit records survive. Exactly one consistent pre-migration backup is produced, and both databases pass SQLite integrity checks.
+- Audio synchronization is repeatable, preserves participant state/unrelated assets, and refuses unknown recordings before writing any changes. The organizer CLI uses its selected database, trims newly supplied account names, and reports paths/accounts without disclosing passwords.
+- Existing protection and event tests remain: future pages/assets, helper, GIF/audio, aliases and completion image authorization at every stage; opaque sessions; recovery/blocking; six-hour timing; once-only completion; concurrent AI allowance enforcement; CSV audit; CSRF; local runtime references; private filesystem paths.
+- Twelve unaffected assets match the original archive byte for byte. The four original audio backups match that archive. The GIF still has 16 frames; original hotspot geometry and Morse behavior remain intact.
 
-The SQLite backup command was exercised against the instance database; `PRAGMA integrity_check` on its backup returned `ok`. Repeated initialization preserved data. `pip check` reported no broken requirements. Asset import was repeated against the preserved archive and retained original bytes.
+## Real browsers
 
-## Real browser checks and visual inspection
+`tests/browser_check.py` passed against real Waitress processes in **Chromium and Firefox ESR**, using separate temporary databases. Each completed organizer sign-in/participant creation/event start, participant sign-in, door interaction, wrong credentials, all levels/helper/completion, and organizer results.
 
-The optional `tests/browser_check.py` was run against a real Waitress process using a **disposable database** for each engine. Both engines completed participant creation, event start, participant sign-in, the home door, a wrong credential attempt, all seven levels, the helper and completion, then displayed organizer results.
+Both engines checked 800×600, 1024×768, 1366×768 and 1920×1080 layouts. Hotspots remained aligned. Every level 4 binary bit stayed inside the viewport and outside the central image. Level 2 required scrolling; its black text was selectable with a contrasting selection highlight. Other puzzle images fitted the tested viewports without page scrolling.
 
-- **Chromium:** passed. Desktop viewport sizes 800×600, 1024×768, 1366×768 and 1920×1080. Audio context entered running state following a real click and could be muted. No JavaScript page errors or external page requests were observed.
-- **Firefox ESR:** passed using Mozilla geckodriver 0.37.1. The same viewport sizes and walkthrough were checked. Its cloud audio backend could not start playback; the button correctly retained “Enable sound” and `aria-pressed=false`. Firefox's console is not collected by this checker; DOM behavior and resource entries were checked directly.
-- Both hotspots stayed inside and aligned with their images at the four sizes. A browser test initially found drift at large viewport sizes; the container now derives its aspect ratio from the imported image dimensions, which fixes that drift.
-- The real level 2 clue started below the viewport; Ctrl+A selected its selectable black-on-black text and the selection highlight revealed it. Other puzzle-page images fit within the tested viewport bounds without document scrolling.
-- The original homepage, level 1 hover, selected level 2 clue, level 4 binary cells, entry, wrong-input panel, helper, final page and organizer interface were reviewed through screenshots. No filters, cropping, recompression or image overlays were applied to the delivered clue images. Hotspots are transparent, limited regions; the rest of the image remains available for normal inspection and saving.
-- The Firefox browser could not initialize its rendering processes inside the command sandbox. The successful run used the approved unsandboxed test command, with browser requests outside loopback blocked by its test proxy settings. This did not change the live event, browser policies on participant PCs, or host network/firewall configuration. Firefox was obtained through a signed Debian repository; artifact/TLS checks remained enabled.
+Chromium additionally intercepted the delayed clue request and verified that it started after `document.readyState === 'complete'`, with an empty container already below the viewport and at least 24 pixels high. A simulated fetch failure left the reserved container empty with no fallback clue. The initial HTTP source lacked the route text; the successful request populated the live DOM via `textContent`.
 
-Machine-readable results and screenshots are generated in ignored `test-results/chromium/` and `test-results/firefox/`. They are private organizer material and contain delivered clues. Re-running the checker removes stale pass/failure markers before starting.
+Chromium reported no JavaScript page errors or external page requests. Its audio context entered running state after a click and could be muted. Firefox's cloud audio backend was unavailable; the control truthfully retained “Enable sound”. Firefox's console is not collected by this checker; DOM behavior and same-origin resource entries were checked directly. Firefox needed the approved unsandboxed command to start rendering; its test proxy blocked browser traffic outside loopback.
 
-## Original asset inspection
+Screenshots and machine-readable outcomes are in ignored `test-results/chromium/` and `test-results/firefox/`. These contain puzzle clues and are private organizer material. Re-running clears stale result/failure markers.
 
-All 16 filenames, formats and SHA-256 checksums match their originals. Images were opened at full resolution; all GIF frames were inspected. The homepage's faint Taurus wording and level 3's faint embedded footer were verified visually, using diagnostic inversion/contrast views without changing the delivered image. The actual GIF's parent-relative music link is documented in the organizer guide.
+## Audio verification
 
-FFmpeg decoded all six MP3 files successfully. A thresholded amplitude envelope of `music1.mp3` separated dots (~.08 s), dashes (~.21–.22 s), intra-letter gaps (~.05–.06 s), character gaps (~.42–.43 s) and word gaps (~1.17 s). International Morse decoding produced `THE EYE OF THE BULL IN THE SKY`.
+The four revised MP3s append locally synthesized English speech at the existing 4×/4×/3×/3× rates. The builder copied the original poem packets without re-encoding them, matched synthesized loudness to each source, and added short pauses/fades. Byte-for-byte original files are private backups outside serving routes.
 
-The four accelerated voice clips and the spoken hint were **not independently transcribed or listened to by ear**. Their specified transcript is organizer documentation only; codec validation does not establish their actual spoken words. This is an event-day listening requirement.
+`PYTHONPATH=/workspace/void-tools/speech-qa .venv/bin/python scripts/verify_audio.py --recognize` passed using FFmpeg and PocketSphinx 5.1.0 installed as optional QA tooling outside application dependencies. Recognition chose among **all ten digits**, using the delivered MP3 tails after slowing, rather than synthesis input WAVs.
 
-## Checks still required on the event setup
+| Clip | Preserved original MP3 packets | Recognized slowed tail | Decoded peak |
+| --- | ---: | --- | ---: |
+| elodie_clue_4x.mp3 | 49 | seven | 0.888 |
+| elodie_line2_4x.mp3 | 53 | two | 0.870 |
+| elodie_line3_3x.mp3 | 55 | nine | 0.771 |
+| elodie_line4_3x.mp3 | 69 | four | 0.884 |
 
-- Actual Windows startup execution; Windows scripts were reviewed, while Linux setup/startup was executed.
-- Participant-to-laptop LAN reachability, firewall rules, network allowlists, managed-profile policies, certificate trust if HTTPS is used, personal-device controls and the supervised AI station.
-- Audible playback on physical headphones/speakers and confirmation of the hint/four slowed voice recordings against the organizer guide.
-- A rehearsal under expected participant load, laptop power/sleep behavior, backup/restore practice and operational supervision. The concurrent ledger test is not a server capacity benchmark.
-- HTTPS reverse-proxy deployment and fresh-task/cloud snapshot restoration. Saving environment instructions is separate from publishing or restoring the environment.
+The assembled digits are **7294**. All peaks are below clipping. Tests verify appended packets and absence of digit words/codes in public audio metadata. Full QA output is in ignored `test-results/audio.json`. There is no outstanding audio asset generation.
 
-No event was started in the real instance, no production participant/organizer credentials were invented, and no host firewall settings were changed. The source and original assets are now available in the Through_The_Void GitHub repository. Keep that repository private during the event because it includes all puzzle solutions.
+The preserved poem recordings and unchanged hint were not independently transcribed by ear here. Speech recognition of isolated digits does not establish physical playback quality or confirm the original poem/hint wording. Listen to the full slowed clips and hint on event equipment.
+
+The unchanged Morse track was previously decoded as `THE EYE OF THE BULL IN THE SKY`; the original GIF's actual parent-relative music link and faint image observations are documented in the organizer guide.
+
+## Event setup checks still required
+
+- Execute setup/startup on the Windows host; the scripts were reviewed but not run on Windows here.
+- Verify real participant-to-laptop LAN access, firewall/client isolation and any managed-browser rules.
+- Listen through actual headphones/speakers: full original poem, four appended digits, unchanged hint and Morse.
+- Rehearse expected load, laptop power/sleep behavior, consistent backup/restore and organizer supervision. Concurrency tests are not a capacity benchmark.
+- Test HTTPS deployment if chosen. Cloud configuration saving does not establish publication or restoration into a future task.
+
+The real event was not started, its accounts were not reset, and host firewall/network settings were not changed. Existing local data received only the additive, backed-up schema migration during setup.

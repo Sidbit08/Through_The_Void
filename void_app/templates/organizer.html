@@ -29,6 +29,17 @@
     </form>
     <p class="subtle">This ledger records supervised use. It does not control third-party AI websites.</p>
   </section>
+  <section class="control-card"><h2>Puzzle gate attempts</h2>
+    <div class="table-scroll"><table><thead><tr><th>Participant</th><th>Destination</th><th>Failed attempts</th><th>Cooldown until (UTC)</th></tr></thead><tbody>
+    {% for c in counters %}<tr><td>{{ c.participant }}</td><td>{{ destinations[c.gate] }}</td><td>{{ 0 if c.cooldown_until is not none and c.cooldown_until <= clock else c.failures }} / 5</td><td>{{ c.cooldown_until | utc }}</td></tr>{% else %}<tr><td colspan="4">No failed attempts recorded.</td></tr>{% endfor %}
+    </tbody></table></div>
+    <form method="post" class="action-form"><input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="action" value="reset-cooldown">
+      <label>Participant<select name="participant" required>{% for p in participants %}<option>{{ p.id }}</option>{% endfor %}</select></label>
+      <label>Destination gate<select name="gate" required>{% for stage,path in destinations.items() %}<option value="{{ stage }}">{{ path }}</option>{% endfor %}</select></label>
+      <label>Audit reason<input name="reason" maxlength="500" required></label><button>Reset gate cooldown</button>
+    </form>
+    <details><summary>Recent gate events</summary><div class="table-scroll"><table><thead><tr><th>Participant</th><th>Destination</th><th>UTC</th><th>Event</th><th>Failure count</th></tr></thead><tbody>{% for log in gate_logs %}<tr><td>{{ log.participant }}</td><td>{{ destinations[log.gate] }}</td><td>{{ log.timestamp | utc }}</td><td>{{ log.event }}</td><td>{{ log.failures }}</td></tr>{% endfor %}</tbody></table></div></details>
+  </section>
   <section class="control-card"><h2>Successful unlocks</h2><div class="table-scroll"><table><thead><tr><th>Participant</th><th>Stage</th><th>Server timestamp (UTC)</th></tr></thead><tbody>{% for u in unlocks %}<tr><td>{{ u.participant }}</td><td>{{ u.stage }}</td><td>{{ u.timestamp | utc }}</td></tr>{% else %}<tr><td colspan="3">No unlocks yet.</td></tr>{% endfor %}</tbody></table></div></section>
   <section class="control-card"><div class="section-head"><h2>Audit ledger</h2><a href="/organizer/audit.csv">Export full audit CSV ↓</a></div><p class="subtle">Most recent 200 actions. The complete ledger remains in the database and export.</p><div class="table-scroll"><table><thead><tr><th>Participant</th><th>Organizer</th><th>UTC</th><th>Action</th><th>Reason</th><th>Delta</th></tr></thead><tbody>{% for log in logs %}<tr><td>{{ log.participant or '—' }}</td><td>{{ log.organizer }}</td><td>{{ log.timestamp | utc }}</td><td>{{ log.action }}</td><td>{{ log.detail }}</td><td>{{ log.delta }}</td></tr>{% endfor %}</tbody></table></div></section>
 </main>

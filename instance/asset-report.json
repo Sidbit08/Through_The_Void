@@ -1,19 +1,19 @@
 {
   "elodie_clue_4x.mp3": {
-    "sha256": "225c163da22e893caf82f536666d2308214102a5e076e6d831c20ce0819c8e25",
-    "bytes": 14757
+    "sha256": "d7a0413ff265d20b0f2b107ef4eb49bdb1fee93f0b57959aae9f74beb933bd38",
+    "bytes": 19704
   },
   "elodie_line2_4x.mp3": {
-    "sha256": "ae810b02d62b6497b785a7fc9f18f45dd0afab73c3afd23cfc0fdcebac3269c8",
-    "bytes": 15189
+    "sha256": "eca4f533aa06084ad1daa5a22495461b25d47e38f8ac8e5c2e785b69d2129e66",
+    "bytes": 19560
   },
   "elodie_line3_3x.mp3": {
-    "sha256": "d14d0a64a5e1dcea8a0f698fd73918fec7b30e38d5cff29b1cb195a284a2bf3e",
-    "bytes": 16317
+    "sha256": "17da61e9808dad115fcf7177bd51ae6accc1dc4851d0001f23300794d73c9f3d",
+    "bytes": 22992
   },
   "elodie_line4_3x.mp3": {
-    "sha256": "6dae2df8d41aef4a88507850973e5ad6ef22862eaebf73d9be897180c2a634e3",
-    "bytes": 17205
+    "sha256": "c08baa9f57ecd6f130cd01f58f26057a4aef75f8f642d7d163c030d387e3e675",
+    "bytes": 23544
   },
   "hint.mp3": {
     "sha256": "00d02c8bb4c1225c4e54165cf37180328362f9b0cf111d0cfaedee5856a9fa37",

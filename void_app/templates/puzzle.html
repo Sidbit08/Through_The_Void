@@ -35,9 +35,10 @@
     {% endif %}
   </div>
 </main>
-{% if stage == 2 %}<p class="buried-text">TheBrightest.htm</p>{% endif %}
+{% if stage == 2 %}<p id="fragment" class="buried-text"></p>{% endif %}
 {% if stage == 7 %}<p class="camouflaged">Look at the b(right) side</p>{% endif %}
 <footer class="quiet-controls">
   <form action="/logout" method="post"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Sign out</button></form>
 </footer>
 {% endblock %}
+{% block scripts %}{% if stage == 2 %}<script src="/static/fragment.js" defer></script>{% endif %}{% endblock %}

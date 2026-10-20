@@ -50,7 +50,7 @@ label { font: .78rem/1.5 system-ui,sans-serif; color: #b7b1c5; letter-spacing: .
 .stage-2 { background:#000; min-height:100svh; height:auto; padding-bottom:50px; }
 .stage-2 .art-stage { flex:none; height:calc(100svh - 100px); }
 .stage-2 .art-frame { --art-height:calc(100svh - 145px); }
-.buried-text { margin:24svh 0 10svh; color:#000; font:1rem system-ui,sans-serif; }
+.buried-text { margin:24svh 0 10svh; min-height:1.5em; color:#000; font:1rem system-ui,sans-serif; }
 .stage-7 { background:#07070b; }
 .camouflaged { margin:3px 0 0; flex:none; color:#07070b; font-size:.8rem; }
 .stage-7 .art-frame { --art-height:calc(100svh - 140px); }

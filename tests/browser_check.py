@@ -61,6 +61,27 @@ class Chromium:
     def select_all(self):
         self.page.keyboard.press("Control+a")
 
+    def check_fragment_loading(self, url):
+        assert 'TheBrightest.htm' not in self.page.request.get(url).text()
+        observations = []
+        def observe(route):
+            observations.append(self.evaluate("const e=document.querySelector('#fragment');return {ready:document.readyState,empty:e.textContent==='',top:e.getBoundingClientRect().top,height:e.getBoundingClientRect().height,viewport:innerHeight}"))
+            route.continue_()
+        self.page.route('**/fragment', observe)
+        self.goto(url)
+        self.page.unroute('**/fragment', observe)
+        assert len(observations) == 1
+        initial = observations[0]
+        assert initial['ready'] == 'complete' and initial['empty']
+        assert initial['top'] > initial['viewport'] and initial['height'] >= 24
+        def fail(route):
+            route.fulfill(status=503, body='')
+        self.page.route('**/fragment', fail)
+        self.goto(url)
+        assert self.evaluate("const e=document.querySelector('#fragment');return e.textContent==='' && e.getBoundingClientRect().height>=24 && e.getBoundingClientRect().top>innerHeight")
+        self.page.unroute('**/fragment', fail)
+        self.goto(url)
+
     def close(self):
         self.browser.close()
         self.playwright.stop()
@@ -212,19 +233,25 @@ def check(browser, url, out, organizer_password):
             assert sizes['bottom'] <= height - 30, (stage,sizes)
             if stage != 2:
                 assert sizes['scroll'] <= height + 1, (stage,sizes)
+            if stage == 4:
+                assert b.evaluate("const image=document.querySelector('.puzzle-image').getBoundingClientRect();return [...document.querySelectorAll('.bit')].every(e=>{const r=e.getBoundingClientRect();return r.top>=0 && r.left>=0 && r.right<=innerWidth && r.bottom<=innerHeight && (r.bottom<=image.top || r.top>=image.bottom || r.right<=image.left || r.left>=image.right);})")
             measurements.append({"stage":stage,**sizes})
         b.resize(1366,768)
         b.screenshot(out / f"stage-{stage}.png")
         if stage == 2:
+            if hasattr(b, 'check_fragment_loading'):
+                b.check_fragment_loading(url + '/level2.htm')
             assert b.evaluate("return getComputedStyle(document.body).backgroundColor === 'rgb(0, 0, 0)'")
             assert b.evaluate("return document.querySelector('.buried-text').getBoundingClientRect().top > innerHeight")
+            wait_for(lambda: b.evaluate("return document.querySelector('.buried-text').textContent === 'TheBrightest.htm'"))
+            assert b.evaluate("const e=document.querySelector('.buried-text');return getComputedStyle(e).color==='rgb(0, 0, 0)' && getComputedStyle(e,'::selection').backgroundColor!=='rgb(0, 0, 0)'")
             b.select_all()
             assert b.evaluate("return getSelection().toString().includes('TheBrightest.htm')")
             b.evaluate("document.querySelector('.buried-text').scrollIntoView();")
             b.screenshot(out / "level2-selected.png")
         if stage == 7:
             b.goto(url + "/scrambled.htm")
-            assert b.evaluate("return document.querySelector('.binary-text').textContent.split(' ').length === 30")
+            assert b.evaluate("return document.querySelector('.binary-text').textContent.split(' ').length === 42")
             b.screenshot(out / "helper.png")
         assert b.evaluate("return performance.getEntriesByType('resource').every(r=>new URL(r.name).origin === location.origin)")
     b.goto(url + "/organizer")
