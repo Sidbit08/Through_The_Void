@@ -1,0 +1,27 @@
+# Base hostnames, also matching subdomains; no substrings or wildcards.
+# Source/status/date/purpose are recorded in domain-sources.json.
+# This is a starter list, not a comprehensive list of AI services.
+chatgpt.com
+openai.com
+claude.ai
+anthropic.com
+gemini.google.com
+aistudio.google.com
+generativelanguage.googleapis.com
+copilot.microsoft.com
+githubcopilot.com
+copilot-proxy.githubusercontent.com
+perplexity.ai
+grok.com
+x.ai
+deepseek.com
+chat.mistral.ai
+api.mistral.ai
+openrouter.ai
+api.cohere.com
+api.groq.com
+api-inference.huggingface.co
+router.huggingface.co
+
+# Intentionally NOT blocked wholesale: google.com, github.com, microsoft.com,
+# googleapis.com, huggingface.co, cloud/CDN hosts, social networks or search engines.

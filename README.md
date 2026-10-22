@@ -133,3 +133,7 @@ Install the selected browser and the official Mozilla geckodriver separately. Br
 The optional private audio build tool is `scripts/update_clue_audio.py` (FFmpeg with flite required). Delivered MP3s are ready to use; organizers need no speech-generation tools. `scripts/verify_audio.py` checks original packet preservation and clipping; adding `--recognize` also requires PocketSphinx 5.1.0 and tests the slowed tails against all ten digits. These tools are outside web-accessible directories and add no application dependencies.
 
 The existing checkout is sufficient for cloud tasks; do not create a Git worktree unless explicitly requested. Application startup does not push or publish the repository.
+
+## Participant Linux event mode
+
+The separate [CTF Event Mode toolkit](tools/event-mode/README.md) provides administrator-managed balanced/strict participant egress controls, editable lists, browser policies and timed rollback. It does not activate with the website. Deploy only its [standalone ZIP](downloads/ctf-event-mode.zip) to participant PCs, after the documented one-PC pilot; keep this application's source and solutions off participant machines. Host-local controls cannot guarantee zero AI access with unrestricted internet or administrator privileges.

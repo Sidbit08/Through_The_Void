@@ -1,0 +1,72 @@
+[
+  {
+    "name": "ProxySettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/Miscellaneous/ProxySettings.yaml",
+    "sha256": "58d5851f1f095fdcb6384dd631e3b49a8b5a44abebe0840332310dd76adf920c",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "DnsOverHttpsMode",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/Miscellaneous/DnsOverHttpsMode.yaml",
+    "sha256": "bbe579e127c96192db0695335dd211050deb5faaff46575958097a7334044f9f",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "ExtensionSettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/Extensions/ExtensionSettings.yaml",
+    "sha256": "66f75161058dc7ba56f7bfc35fcc9ab04af88f3de3e12ae3807f7f70be6ba046",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "QuicAllowed",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/Miscellaneous/QuicAllowed.yaml",
+    "sha256": "8105406c7a98b66e5cf677aeb8ac1d00bf0c7ea6d2d7f371df1a2428a4456bcd",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "DeveloperToolsAvailability",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/Miscellaneous/DeveloperToolsAvailability.yaml",
+    "sha256": "bfde119ea15b7a847481eaa9e6d3ad094ac2b53395fd692e163b79d270652510",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "AIModeSettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/GenerativeAI/AIModeSettings.yaml",
+    "sha256": "e987e219e15b474f88a67ed275b3287081468e5be7f3def25d29301736dfe434",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": true
+  },
+  {
+    "name": "GenAiDefaultSettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/GenerativeAI/GenAiDefaultSettings.yaml",
+    "sha256": "ac0f11eb694ddb444fa43e4282df793b39732edc0df369b6a07fd3afac71aa13",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": false
+  },
+  {
+    "name": "GenAILocalFoundationalModelSettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/GenerativeAI/GenAILocalFoundationalModelSettings.yaml",
+    "sha256": "ff4e11ec66a47cee3d4940f5d590c7e1f2a992e24bc71aab726e16f0a9ad371d",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": false
+  },
+  {
+    "name": "GeminiSettings",
+    "source": "https://raw.githubusercontent.com/chromium/chromium/main/components/policy/resources/templates/policy_definitions/GenerativeAI/GeminiSettings.yaml",
+    "sha256": "3e34b792ccd5834c699812294cee075e13d3daf7952f7be3b562a9ef04a09eda",
+    "verified_on": "2026-10-22",
+    "generated_where_supported": false
+  },
+  {
+    "name": "Firefox generated policy schema",
+    "source": "Firefox ESR 153.5 browser/omni.ja modules/policies/policies-schema.json",
+    "sha256": "bbcc503f21d4328976953aa30712b5ee5516903f1106ff3ecd6550647e783326",
+    "verified_on": "2026-10-22",
+    "policy_engine_check": "passed with disposable copied browser"
+  }
+]

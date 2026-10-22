@@ -1,0 +1,198 @@
+{
+  "matching": "hostname and subdomains only",
+  "entries": [
+    {
+      "domain": "openai.com",
+      "source": "https://raw.githubusercontent.com/openai/openai-python/main/src/openai/_client.py",
+      "purpose": "AI provider, including API and legacy chat subdomains",
+      "status": "verified-official-sdk-endpoint",
+      "verified_on": "2026-10-22",
+      "reviewed_on": "2026-10-22",
+      "evidence_sha256": "6de3a89ee9cb99104118fddd0b44ba13dbe94b78d088cd025ebae85e4c3b884e",
+      "evidence_host": "api.openai.com"
+    },
+    {
+      "domain": "anthropic.com",
+      "source": "https://raw.githubusercontent.com/anthropics/anthropic-sdk-python/main/src/anthropic/_client.py",
+      "purpose": "AI API provider",
+      "status": "verified-official-sdk-endpoint",
+      "verified_on": "2026-10-22",
+      "reviewed_on": "2026-10-22",
+      "evidence_sha256": "4fc0d6e2d671c2271545f0cba888afd67720f6c17f6a2f12ee13e52cf7d92a74",
+      "evidence_host": "api.anthropic.com"
+    },
+    {
+      "domain": "generativelanguage.googleapis.com",
+      "source": "https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/_api_client.py",
+      "purpose": "Gemini API endpoint; not all googleapis.com",
+      "status": "verified-official-sdk-endpoint",
+      "verified_on": "2026-10-22",
+      "reviewed_on": "2026-10-22",
+      "evidence_sha256": "47925401b29beefcd8396f4623b863e3426647a0f33f5c9c5e1d052a6ec7dd69",
+      "evidence_host": "generativelanguage.googleapis.com"
+    },
+    {
+      "domain": "api.groq.com",
+      "source": "https://raw.githubusercontent.com/groq/groq-python/main/src/groq/_client.py",
+      "purpose": "Groq inference API",
+      "status": "verified-official-sdk-endpoint",
+      "verified_on": "2026-10-22",
+      "reviewed_on": "2026-10-22",
+      "evidence_sha256": "bad19984bb5b4541b61181811eef92b6a9b9a5e2dd59bdfae786ddad93981de8",
+      "evidence_host": "api.groq.com"
+    },
+    {
+      "domain": "api.mistral.ai",
+      "source": "https://raw.githubusercontent.com/mistralai/client-python/main/src/mistralai/sdkconfiguration.py",
+      "purpose": "Mistral inference API",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Official-source retrieval/endpoint verification failed: HTTP Error 404: Not Found"
+    },
+    {
+      "domain": "chatgpt.com",
+      "source": "https://chatgpt.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "claude.ai",
+      "source": "https://claude.ai",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "gemini.google.com",
+      "source": "https://gemini.google.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "aistudio.google.com",
+      "source": "https://aistudio.google.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "copilot.microsoft.com",
+      "source": "https://copilot.microsoft.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "githubcopilot.com",
+      "source": "https://githubcopilot.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "copilot-proxy.githubusercontent.com",
+      "source": "https://copilot-proxy.githubusercontent.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "perplexity.ai",
+      "source": "https://perplexity.ai",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "grok.com",
+      "source": "https://grok.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "x.ai",
+      "source": "https://x.ai",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "deepseek.com",
+      "source": "https://deepseek.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "chat.mistral.ai",
+      "source": "https://chat.mistral.ai",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "openrouter.ai",
+      "source": "https://openrouter.ai",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "api.cohere.com",
+      "source": "https://api.cohere.com",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "api-inference.huggingface.co",
+      "source": "https://api-inference.huggingface.co",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    },
+    {
+      "domain": "router.huggingface.co",
+      "source": "https://router.huggingface.co",
+      "purpose": "Known AI UI/API candidate; administrator must verify current service and redirects",
+      "status": "unverified",
+      "verified_on": null,
+      "reviewed_on": "2026-10-22",
+      "note": "Not verified by a live service request; never treat this starter list as comprehensive"
+    }
+  ]
+}

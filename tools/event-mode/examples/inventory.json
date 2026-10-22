@@ -1,0 +1,13 @@
+{
+  "notice": "SYNTHETIC INVENTORY FOR OFFLINE PLANS ONLY. Enable always re-inspects the actual host.",
+  "users": {
+    "root": {"uid": 0, "groups": ["root"], "subuids": []},
+    "ctfplayer": {"uid": 1001, "groups": ["ctfplayer"], "subuids": [[165536, 65536]]}
+  },
+  "proxy_uid": 991,
+  "dns_uid": 992,
+  "browsers": [
+    {"name": "firefox", "kind": "firefox", "version": [144, 0], "policy_paths": ["/etc/firefox/policies/policies.json"]},
+    {"name": "chromium", "kind": "chromium", "version": [138, 0], "policy_paths": ["/etc/chromium/policies/managed/90-ctf-event-mode.json"]}
+  ]
+}

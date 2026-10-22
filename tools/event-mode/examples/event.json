@@ -1,0 +1,14 @@
+{
+  "mode": "strict",
+  "participants": ["ctfplayer"],
+  "proxy_port": 3129,
+  "dns_port": 53,
+  "dns_upstreams": ["9.9.9.9", "149.112.112.112"],
+  "ctf_servers": [
+    {"address": "192.168.1.50", "ports": [8080], "hostname": "ctf.event"}
+  ],
+  "direct_ctf": false,
+  "denylist": "../lists/ai-denylist.txt",
+  "allowlist": "../lists/strict-allowlist.txt",
+  "extensions": {"firefox": [], "chromium": []}
+}

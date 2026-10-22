@@ -1,0 +1,7 @@
+# Illustrative references/tools. The organiser must review sites and dependencies.
+# Allowing a hostname also allows its subdomains and all HTTPS content on it.
+# No search engine is approved by default; use an organiser-operated search desk.
+docs.python.org
+en.wikipedia.org
+science.nasa.gov
+gchq.github.io
